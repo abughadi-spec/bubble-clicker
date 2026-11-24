@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">فقاعة النقر</string>
+    <string name="service_name">فقاعة النقر</string>
+    <string name="service_desc">يعرض فقاعة عائمة تسجل نقراتك وتعيدها تلقائياً.</string>
+</resources>
