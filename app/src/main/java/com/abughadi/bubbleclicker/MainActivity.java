@@ -22,9 +22,10 @@ public class MainActivity extends Activity {
     static final String KEY_REPEATS = "repeats";      // 0 = forever
     static final String KEY_ROUND_DELAY = "round_delay"; // ms between rounds
     static final String KEY_SPEED = "speed";          // percent, 100 = recorded timing
+    static final String KEY_RADAR_MIN = "radar_min";  // minutes between automatic radar runs
 
     private TextView status;
-    private EditText repeats, roundDelay, speed;
+    private EditText repeats, roundDelay, speed, radarMin;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -47,7 +48,13 @@ public class MainActivity extends Activity {
         help.setTextSize(15);
         help.setPadding(0, dp(12), 0, dp(12));
         help.setText(
-            "طريقة الاستخدام:\n" +
+            "الرادار:\n" +
+            "• افتح خريطة اللعبة، اضغط الفقاعة ← «الرادار». يفتح الرادار ويضغط Quick Execute ثم Claim All ويقفل نافذة الجوائز ويرجع.\n" +
+            "• «الرادار تلقائي» يعيدها كل فترة تحددها تحت.\n" +
+            "• إذا ضغط في مكان غلط: «ضبط مواقع الرادار» واضغط الأماكن بنفسك مرة وحدة.\n" +
+            "• لا تحط الفقاعة فوق أيقونة الرادار أو الأزرار.\n" +
+            "• يحتاج أندرويد 11 أو أحدث عشان يقرأ لون الأزرار.\n\n" +
+            "مسجّل النقرات:\n" +
             "1) اضغط «تفعيل الفقاعة» وفعّل «فقاعة النقر» من إعدادات إمكانية الوصول.\n" +
             "2) افتح اللعبة، تظهر لك الفقاعة الزرقاء. اسحبها لأي مكان.\n" +
             "3) اضغط الفقاعة ← «تسجيل»، ثم انقر على أماكن اللعبة بالترتيب اللي تبيه.\n" +
@@ -56,6 +63,7 @@ public class MainActivity extends Activity {
             "تنبيه: الأتمتة مخالفة لشروط بعض الألعاب وقد تسبب حظر الحساب.");
         root.addView(help);
 
+        radarMin = field(root, "الرادار التلقائي: كل كم دقيقة", p.getInt(KEY_RADAR_MIN, 30));
         repeats = field(root, "عدد مرات التكرار (0 = بلا نهاية)", p.getInt(KEY_REPEATS, 0));
         roundDelay = field(root, "انتظار بين كل جولة (بالثواني)", p.getInt(KEY_ROUND_DELAY, 2000) / 1000);
         speed = field(root, "السرعة % (100 = نفس توقيت تسجيلك، 200 = أسرع مرتين)", p.getInt(KEY_SPEED, 100));
@@ -67,6 +75,7 @@ public class MainActivity extends Activity {
                 .putInt(KEY_REPEATS, num(repeats, 0))
                 .putInt(KEY_ROUND_DELAY, num(roundDelay, 2) * 1000)
                 .putInt(KEY_SPEED, Math.max(10, num(speed, 100)))
+                .putInt(KEY_RADAR_MIN, Math.max(1, num(radarMin, 30)))
                 .apply();
             Toast.makeText(this, "تم الحفظ", Toast.LENGTH_SHORT).show();
         });

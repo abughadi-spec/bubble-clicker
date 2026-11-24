@@ -32,8 +32,8 @@ jobs:
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: BubbleClicker v1.0.${{ github.run_number }}
+          tag_name: v1.1.${{ github.run_number }}
+          name: BubbleClicker v1.1.${{ github.run_number }}
           body: "نزّل ملف BubbleClicker.apk وثبته على جوالك."
           files: BubbleClicker.apk
           make_latest: true
